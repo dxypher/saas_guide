@@ -48,3 +48,4 @@ group :development do
 end
 gem "haml-rails", "~> 0.9"
 gem 'rails_12factor', group: :production
+gem 'awesome_print'
