@@ -1,5 +1,7 @@
 class SubscriptionsController < ApplicationController
 
+  before_action :authenticate_user!
+
   def new
     @plans = Plan.all
   end
@@ -25,6 +27,14 @@ class SubscriptionsController < ApplicationController
       :plan => plan,
       :email => email
     )
+
+    # Customer created valid subscription
+    # create associated Account record
+    account = Account.find_by(email: email)
+    account.stripe_plan_id = plan
+    account.save!
+
+    redirect_to :root, notice: 'Succesfully subscibed!'
 
   rescue => e
     redirect_to :new_subscription, flash: {error: e.message}
