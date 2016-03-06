@@ -13,9 +13,6 @@ class SubscriptionsController < ApplicationController
     # I can show a notice that a reset email will be sent? Not sure This
     # is needed if they already created an account.
 
-    ap "Inside create in Subscriptions. See params hash"
-    ap params
-
     # Get the credit card details submitted by the form
     token = params[:stripeToken]
     plan  = params[:plan][:stripe_id]
@@ -28,10 +25,18 @@ class SubscriptionsController < ApplicationController
       :email => email
     )
 
+    subscriptions = customer.subscriptions
+    subscription = subscriptions.data[0]
+    # This is a unix timestamp
+    current_period_end = subscription.current_period_end
+    # convert to datetime
+    active_until = Time.at(current_period_end).to_datetime
     # Customer created valid subscription
     # create associated Account record
     account = Account.find_by(email: email)
     account.stripe_plan_id = plan
+    account.customer_id = customer.id
+    account.active_until = active_until
     account.save!
 
     redirect_to :root, notice: 'Succesfully subscibed!'
