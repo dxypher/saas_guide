@@ -25,6 +25,9 @@ class SubscriptionsController < ApplicationController
       :plan => plan,
       :email => email
     )
+
+  rescue => e
+    redirect_to :new_subscription, flash: {error: e.message}
   end
 
 end
