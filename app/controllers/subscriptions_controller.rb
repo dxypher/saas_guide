@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
 
   def new
-
+    @plans = Plan.all
   end
 
   def create
@@ -13,6 +13,18 @@ class SubscriptionsController < ApplicationController
 
     ap "Inside create in Subscriptions. See params hash"
     ap params
+
+    # Get the credit card details submitted by the form
+    token = params[:stripeToken]
+    plan  = params[:plan][:stripe_id]
+    email = current_user.email #assumes user is logged in to subscribe
+
+    # Create a Customer
+    customer = Stripe::Customer.create(
+      :source => token,
+      :plan => plan,
+      :email => email
+    )
   end
 
 end
