@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :weather_grid
+
+  get '/subscriptions/cancel_subscription' => 'subscriptions#cancel_subscription'
   resources :subscriptions
 
   root 'home#index'

@@ -57,6 +57,30 @@ class SubscriptionsController < ApplicationController
     redirect_to :back, flash: {error: e.message}
   end
 
+  def cancel_subscription
+    email = current_user.email #assumes user is logged in to subscribe
+    current_account = Account.find_by(email: email)
+    customer_id = current_account.customer_id
+    current_plan = current_account.stripe_plan_id
+    if current_plan.blank?
+      raise "No Plan found"
+    end
+    customer = Stripe::Customer.retrieve(customer_id)
+    subscriptions = customer.subscriptions
+    current_subscription = subscriptions.data[0]
+
+    if current_subscription.blank?
+      raise "Subscription not found!"
+    end
+    current_subscription.delete(at_period_end: true)
+
+    save_account_details( current_account, nil, customer_id, Time.at(0).to_datetime )
+    @message = "Subscription canceled succesfully"
+
+  rescue => e
+    redirect_to subscriptions_path, flash: {error: e.message}
+  end
+
   private
 
   def create_or_update_subscription(customer, current_plan, new_plan)
