@@ -1,0 +1,10 @@
+= render 'plans'
+
+.row
+  .col-sm-6.col-sm-offset-3
+    = form_tag "/subscriptions" do
+      %span.payment-errors.text-danger
+
+      = collection_select :plan, :stripe_id, @plans, :stripe_id, :name, {}, {class:'form-control'}
+      %br
+      %button.btn.btn-primary{:type => "submit"} Update Subscription
