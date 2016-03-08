@@ -28,6 +28,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 
 gem 'stripe'
+gem 'stripe_event'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -56,3 +57,6 @@ gem 'awesome_print'
 gem 'sidekiq'
 gem 'devise-async'
 gem 'puma'
+
+# ultrahook gem for forwarding Stripe events in dev.
+gem 'ultrahook', group: :development

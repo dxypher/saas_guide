@@ -72,9 +72,9 @@ class SubscriptionsController < ApplicationController
     if current_subscription.blank?
       raise "Subscription not found!"
     end
-    current_subscription.delete(at_period_end: true)
+    current_subscription.delete
 
-    save_account_details( current_account, nil, customer_id, Time.at(0).to_datetime )
+    # save_account_details( current_account, nil, customer_id, Time.at(0).to_datetime )
     @message = "Subscription canceled succesfully"
 
   rescue => e
