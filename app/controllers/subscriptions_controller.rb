@@ -81,6 +81,22 @@ class SubscriptionsController < ApplicationController
     redirect_to subscriptions_path, flash: {error: e.message}
   end
 
+  def update_card
+  end
+
+  def update_card_details
+    token = params[:stripeToken]
+    current_account = Account.find_by(email: current_user.email)
+    customer_id = current_account.customer_id
+    customer = Stripe::Customer.retrieve(customer_id)
+    customer.source = token
+    customer.save
+
+    redirect_to subscriptions_path, notice: 'Credit card succesfully updated.'
+  rescue => e
+    redirect_to subscriptions_update_card_path, flash: {error: e.message}
+  end
+
   private
 
   def create_or_update_subscription(customer, current_plan, new_plan)
