@@ -30,6 +30,8 @@ gem 'devise'
 gem 'stripe'
 gem 'stripe_event'
 
+gem 'apartment'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
