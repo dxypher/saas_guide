@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  # https://github.com/plataformatec/devise/wiki/How-To:-Redirect-to-a-specific-page-on-successful-sign-up-(registration)
+  devise_for :users, controllers: { registrations: "registrations" }
   resources :weather_grid
 
   get '/subscriptions/cancel_subscription' => 'subscriptions#cancel_subscription'
