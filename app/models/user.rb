@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable,
          :async
 
   validate :email_is_unique, on: :create
@@ -45,7 +45,9 @@ class User < ActiveRecord::Base
 
   def create_tenant
     return false if errors.present?
-    Apartment::Tenant.create(subdomain)
+    if self.new_record?
+      Apartment::Tenant.create(subdomain)
+    end
     Apartment::Tenant.switch!(subdomain)
   end
 
