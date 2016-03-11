@@ -7,5 +7,7 @@
   <%= f.input field %>
 <% end -%>
 
+<%= f.input :subdomain, as: :hidden, input_html: { value: current_user ? current_user.subdomain : '' } %>
+
 <%= f.button :submit, t("devise.invitations.new.submit_button") %>
 <% end %>

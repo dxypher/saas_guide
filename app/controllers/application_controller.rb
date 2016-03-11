@@ -5,10 +5,17 @@ class ApplicationController < ActionController::Base
   helper ApplicationHelper
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :set_mailer_host
 
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :subdomain
+    devise_parameter_sanitizer.for(:invite) << :subdomain
   end
+
+  def set_mailer_host
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
+
 end

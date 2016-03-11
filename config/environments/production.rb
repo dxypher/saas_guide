@@ -78,5 +78,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # configuration for devise
-  config.action_mailer.default_url_options = { host: 'saas-guide-n.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'dxypher.com' }
 end
